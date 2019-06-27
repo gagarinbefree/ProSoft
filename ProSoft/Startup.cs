@@ -4,12 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataAccess;
 using DataAccess.Ef;
+using DataAccess.Ef.Dto;
+using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProSoft.Models;
+using Services;
 
 namespace ProSoft
 {
@@ -32,10 +36,25 @@ namespace ProSoft
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<ProSoftDbContext>();
             services.AddScoped<IGenUoW, EfUnit>();
+            services.AddScoped<IDataProvider, DataProvider>();
+
+            TypeAdapterConfig
+                .GlobalSettings
+                .Default
+                .NameMatchingStrategy(NameMatchingStrategy.Flexible);
+
+            TypeAdapterConfig<Apartment, ApartmentIndicationViewModel>
+                .NewConfig()
+                .Map(d => d.ApartmentId, s => s.Id)
+                .Map(d => d.ApartmentName, s => s.Name)
+                .Map(d => d.MeterId, s => s.Meterid)
+                .Map(d => d.LastIndicationDateValue, s => s.Meter.Indication.Any() ? (DateTime?)s.Meter.Indication.First().Datevalue : null)
+                .Map(d => d.LastIndicationValue, s => s.Meter.Indication.Any() ? (int?)s.Meter.Indication.First().Value : null)
+                .Map(d => d.LastVerificationDate, s => s.Meter.Lastverification)
+                .Map(d => d.NextVerificationDate, s => s.Meter.Nextverification);                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -64,9 +64,9 @@ namespace DataAccess.Ef
 
                 entity.Property(e => e.Value).HasColumnName("value");
 
-                entity.HasOne(d => d.Meter)
-                    .WithMany(p => p.Indication)
-                    .HasForeignKey(d => d.Meterid);
+                //entity.HasOne(d => d.Meter)
+                //    .WithMany(p => p.Indication)
+                //    .HasForeignKey(d => d.Meterid);
             });
 
             modelBuilder.Entity<Meter>(entity =>

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DataAccess.Ef
 {
@@ -17,22 +18,27 @@ namespace DataAccess.Ef
             _db = db;
         }
 
-        public T Get(Expression<Func<T, Object>>[] includes = null, Expression<Func<T, bool>> where = null)
+        public async Task<T> GetAsync<TOrderKey>(Expression<Func<T, bool>> where, 
+            Expression<Func<T, TOrderKey>> orderBy = null,
+            SortOrder sort = SortOrder.Unspecified)
+        {
+            IQueryable<T> q = _db.Set<T>().Where(where);
+
+            if (orderBy != null)
+                q = sort == SortOrder.Descending ? q.OrderByDescending(orderBy) : q.OrderBy(orderBy);
+
+            return await q.FirstOrDefaultAsync();
+        }
+
+        public async Task<List<T>> GetAllAsync(params Expression<Func<T, Object>>[] includes)
         {
             IQueryable<T> q = _db.Set<T>();
 
-            if (includes != null)
-            {
-                foreach (Expression<Func<T, Object>> include in includes)
-                {
-                    q = q.Include(include);
-                }
-            }
+            return await includes.Aggregate(q, (c, p) => c.Include(p)).ToListAsync();
 
-            return q.SingleOrDefault(where);
         }
 
-        public List<T> GetAll(Expression<Func<T, Object>>[] includes = null, Expression<Func<T, bool>> where = null, int limit = 0)
+        public async Task<List<T>> GetAll(Expression<Func<T, Object>>[] includes = null, Expression<Func<T, bool>> where = null, int limit = 0)
         {
             IQueryable<T> q = _db.Set<T>();
 
@@ -50,7 +56,7 @@ namespace DataAccess.Ef
             if (limit > 0)
                 q = q.Take(limit);
 
-            return q.ToList();
+            return await q.ToListAsync();
         }
 
         public IQueryable<T> Set()
@@ -115,6 +121,6 @@ namespace DataAccess.Ef
             _db.Entry(item).State = EntityState.Modified;
 
             return _db.SaveChanges();
-        }
+        }        
     }
 }

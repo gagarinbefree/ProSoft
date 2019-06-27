@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProSoft", "ProSoft\ProSoft.csproj", "{33DCDA5F-C646-4DF0-87DC-2034A2C44EB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProSoft", "ProSoft\ProSoft.csproj", "{33DCDA5F-C646-4DF0-87DC-2034A2C44EB0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{FA635EF0-AB72-4F42-92F6-532FAB0E3086}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{8BD5EB95-7C08-4865-B847-5D469D65AFAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FA635EF0-AB72-4F42-92F6-532FAB0E3086}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA635EF0-AB72-4F42-92F6-532FAB0E3086}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA635EF0-AB72-4F42-92F6-532FAB0E3086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BD5EB95-7C08-4865-B847-5D469D65AFAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BD5EB95-7C08-4865-B847-5D469D65AFAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BD5EB95-7C08-4865-B847-5D469D65AFAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BD5EB95-7C08-4865-B847-5D469D65AFAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
