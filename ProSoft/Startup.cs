@@ -41,20 +41,17 @@ namespace ProSoft
             services.AddScoped<IGenUoW, EfUnit>();
             services.AddScoped<IDataProvider, DataProvider>();
 
-            TypeAdapterConfig
-                .GlobalSettings
-                .Default
-                .NameMatchingStrategy(NameMatchingStrategy.Flexible);
-
-            TypeAdapterConfig<Apartment, ApartmentIndicationViewModel>
+            TypeAdapterConfig<Apartment, Appartment>
                 .NewConfig()
                 .Map(d => d.ApartmentId, s => s.Id)
                 .Map(d => d.ApartmentName, s => s.Name)
                 .Map(d => d.MeterId, s => s.Meterid)
-                .Map(d => d.LastIndicationDateValue, s => s.Meter.Indication.Any() ? (DateTime?)s.Meter.Indication.First().Datevalue : null)
+                .Map(d => d.LastIndicationDateValue, s => s.Meter.Indication.Any() ? s.Meter.Indication.First().Datevalue.ToString("dd.MM.yyyy") : "")
                 .Map(d => d.LastIndicationValue, s => s.Meter.Indication.Any() ? (int?)s.Meter.Indication.First().Value : null)
-                .Map(d => d.LastVerificationDate, s => s.Meter.Lastverification)
-                .Map(d => d.NextVerificationDate, s => s.Meter.Nextverification);                
+                .Map(d => d.LastVerificationDate, s => s.Meter.Lastverification.ToString("dd.MM.yyyy"))
+                .Map(d => d.NextVerificationDate, s => s.Meter.Nextverification.ToString("dd.MM.yyyy"))
+                .Map(d => d.LastIndicationId, s => s.Meter.Indication.Any() ? (int?)s.Meter.Indication.First().Id : null);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

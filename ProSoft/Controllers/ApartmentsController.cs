@@ -26,9 +26,23 @@ namespace ProSoft.Controllers
         {
             List<Apartment> apartments = await _data.GetApartmentsAsync();
 
-            var viewModel = apartments.Adapt<ApartmentIndicationViewModel[]>();
+            var model = new ApartmentViewModel
+            {
+                Appartments = apartments.Adapt<List<Appartment>>()
+            };
 
-            return View(viewModel);
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Index(ApartmentViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                //return View(model);
+            }
+
+            return RedirectToAction("Index");
         }
     }
 }

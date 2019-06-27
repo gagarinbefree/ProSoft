@@ -1,0 +1,72 @@
+﻿@model ProSoft.Models.ApartmentViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <h1>Квартиры</h1>
+</div>
+<div class="row mt-2">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Default.ApartmentName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Default.MeterNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Default.LastIndicationDateValue)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Default.LastIndicationValue)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Default.LastVerificationDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Default.NextVerificationDate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int ii = 0; ii < Model.Appartments.Count(); ii++)
+            {
+                @using (Html.BeginForm("Index", "Apartments", FormMethod.Post))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.Appartments[ii].ApartmentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.Appartments[ii].MeterNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.Appartments[ii].LastIndicationDateValue)
+                        </td>
+                        <td>
+                            @Html.HiddenFor(modelItem => Model.Appartments[ii].LastIndicationId)
+                            @Html.EditorFor(modelItem => Model.Appartments[ii].LastIndicationValue)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.Appartments[ii].LastVerificationDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => Model.Appartments[ii].NextVerificationDate)
+                        </td>
+                        <td>
+                            <button class="btn btn-default btn-sm" type="submit" id="saveIndication">
+                                Сохранить
+                            </button>
+                        </td>                            
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
