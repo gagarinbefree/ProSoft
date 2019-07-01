@@ -21,10 +21,14 @@ namespace DataAccess.Ef
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=prosoftdb;Trusted_Connection=True;");
-            }
+            base.OnConfiguring(optionsBuilder);
+
+            //if (!optionsBuilder.IsConfigured)
+            //{
+            //    //Data Source = (localdb)\\MSSQLLocalDB; AttachDbFilename =| DataDirectory |\\SampleDb.mdf; Integrated Security = True; MultipleActiveResultSets = True
+
+            //    optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=prosoftdb;AttachDbFilename=|DataDirectory|\\prosoftdb.mdf;Database=prosoftdb;Trusted_Connection=True;");
+            //}
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

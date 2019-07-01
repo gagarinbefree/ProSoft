@@ -19,4 +19,14 @@
     <ProjectReference Include="..\Services\Services.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Update="App_Data\prosoftdb.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="App_Data\prosoftdb_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

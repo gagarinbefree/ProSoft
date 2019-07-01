@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProSoft.Models;
@@ -19,8 +20,12 @@ namespace ProSoft
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private string _contentRootPath = "";
+
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
+            _contentRootPath = env.ContentRootPath;
+
             Configuration = configuration;
         }
 
@@ -37,7 +42,12 @@ namespace ProSoft
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddDbContext<ProSoftDbContext>();
+
+            string connectionString = Configuration.GetConnectionString("ProSoftDb");
+            if (connectionString.Contains("%CONTENTROOTPATH%"))
+                connectionString = connectionString.Replace("%CONTENTROOTPATH%", _contentRootPath);
+            services.AddDbContext<ProSoftDbContext>(options => options.UseSqlServer(connectionString));
+
             services.AddScoped<IGenUoW, EfUnit>();
             services.AddScoped<IDataProvider, DataProvider>();
 
@@ -66,7 +76,7 @@ namespace ProSoft
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
+        {            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
