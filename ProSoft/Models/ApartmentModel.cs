@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProSoft.Models
 {
-    public class Appartment
+    public class ApartmentModel
     {
         public int ApartmentId { get; set; }
         [DisplayName("Адрес")]

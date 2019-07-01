@@ -10,14 +10,7 @@ using ProSoft.Models;
 namespace ProSoft.Controllers
 {
     public class HomeController : Controller
-    {
-        private IGenUoW _unit;
-
-        public HomeController(IGenUoW unit)
-        {
-            _unit = unit;
-        }
-
+    {        
         public IActionResult Index()
         {
             return View();

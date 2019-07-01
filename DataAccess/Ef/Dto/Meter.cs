@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DataAccess.Ef.Dto
 {
-    public partial class Meter
+    public partial class Meter: Entity
     {
         public Meter()
         {
@@ -11,7 +11,6 @@ namespace DataAccess.Ef.Dto
             Indication = new HashSet<Indication>();
         }
 
-        public int Id { get; set; }
         public string Number { get; set; }
         public DateTime Lastverification { get; set; }
         public DateTime Nextverification { get; set; }

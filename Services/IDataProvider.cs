@@ -8,6 +8,7 @@ namespace Services
 {
     public interface IDataProvider
     {
-        Task<List<Apartment>> GetApartmentsAsync();
+        Task<List<Apartment>> GetApartmentsAsync(string searchString);
+        Task SetIndicationAsync(int id, int value);
     }
 }

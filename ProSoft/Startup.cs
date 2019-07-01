@@ -41,10 +41,10 @@ namespace ProSoft
             services.AddScoped<IGenUoW, EfUnit>();
             services.AddScoped<IDataProvider, DataProvider>();
 
-            TypeAdapterConfig<Apartment, Appartment>
+            TypeAdapterConfig<Apartment, ApartmentModel>
                 .NewConfig()
                 .Map(d => d.ApartmentId, s => s.Id)
-                .Map(d => d.ApartmentName, s => s.Name)
+                .Map(d => d.ApartmentName, s => s.Name.Replace('/', ','))
                 .Map(d => d.MeterId, s => s.Meterid)
                 .Map(d => d.LastIndicationDateValue, s => s.Meter.Indication.Any() ? s.Meter.Indication.First().Datevalue.ToString("dd.MM.yyyy") : "")
                 .Map(d => d.LastIndicationValue, s => s.Meter.Indication.Any() ? (int?)s.Meter.Indication.First().Value : null)

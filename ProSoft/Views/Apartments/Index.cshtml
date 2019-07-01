@@ -1,4 +1,4 @@
-﻿@model ProSoft.Models.ApartmentViewModel
+﻿@model ProSoft.Models.ApartmentsViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -8,6 +8,21 @@
 <div class="row">
     <h1>Квартиры</h1>
 </div>
+
+<div class="row mt-3">
+    <form asp-action="Index" method="get">
+        <p>
+            Фильтр по адресу: <input type="text" name="SearchString" value="@ViewData["SearchString"]" />
+            <button type="submit" class="btn btn-primary btn-sm mb-1">
+                Применить
+            </button>
+            <a asp-action="Index">
+                Очистить
+            </a>
+        </p>
+    </form>
+</div>
+
 <div class="row mt-2">
     <table class="table">
         <thead>
@@ -34,35 +49,35 @@
             </tr>
         </thead>
         <tbody>
-            @for (int ii = 0; ii < Model.Appartments.Count(); ii++)
+            @for (int ii = 0; ii < Model.Apartments.Count(); ii++)
             {
-                @using (Html.BeginForm("Index", "Apartments", FormMethod.Post))
+                @using (Html.BeginForm("Index", "Apartments", new { searchString = @ViewData["SearchString"] }, FormMethod.Post))
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => Model.Appartments[ii].ApartmentName)
+                            @Html.DisplayFor(modelItem => Model.Apartments[ii].ApartmentName)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => Model.Appartments[ii].MeterNumber)
+                            @Html.DisplayFor(modelItem => Model.Apartments[ii].MeterNumber)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => Model.Appartments[ii].LastIndicationDateValue)
+                            @Html.DisplayFor(modelItem => Model.Apartments[ii].LastIndicationDateValue)
                         </td>
                         <td>
-                            @Html.HiddenFor(modelItem => Model.Appartments[ii].LastIndicationId)
-                            @Html.EditorFor(modelItem => Model.Appartments[ii].LastIndicationValue)
+                            @Html.HiddenFor(modelItem => Model.Apartments[ii].LastIndicationId)
+                            @Html.EditorFor(modelItem => Model.Apartments[ii].LastIndicationValue)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => Model.Appartments[ii].LastVerificationDate)
+                            @Html.DisplayFor(modelItem => Model.Apartments[ii].LastVerificationDate)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => Model.Appartments[ii].NextVerificationDate)
+                            @Html.DisplayFor(modelItem => Model.Apartments[ii].NextVerificationDate)
                         </td>
                         <td>
                             <button class="btn btn-default btn-sm" type="submit" id="saveIndication">
                                 Сохранить
                             </button>
-                        </td>                            
+                        </td>
                     </tr>
                 }
             }

@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace DataAccess.Ef.Dto
 {
-    public partial class Apartment
-    {
-        public int Id { get; set; }
+    public partial class Apartment : Entity
+    {        
         public string Name { get; set; }
         public int? Meterid { get; set; }
 

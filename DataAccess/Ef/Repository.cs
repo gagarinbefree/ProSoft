@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Ef
 {
-    public class Repository<T> : IGenRepository<T> where T : class
+    public class Repository<T> : IGenRepository<T> where T : Entity
     {
         private ProSoftDbContext _db;
 
@@ -30,12 +30,27 @@ namespace DataAccess.Ef
             return await q.FirstOrDefaultAsync();
         }
 
+        public async Task<T> GetAsync(Expression<Func<T, bool>> where)            
+        {
+            IQueryable<T> q = _db.Set<T>().Where(where);
+            
+            return await q.FirstOrDefaultAsync();
+        }
+
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> where, params Expression<Func<T, Object>>[] includes)
+        {
+            IQueryable<T> q = _db.Set<T>();
+            if (where != null)
+                q = q.Where(where);
+
+            return await includes.Aggregate(q, (c, p) => c.Include(p)).ToListAsync();
+        }
+
         public async Task<List<T>> GetAllAsync(params Expression<Func<T, Object>>[] includes)
         {
             IQueryable<T> q = _db.Set<T>();
 
             return await includes.Aggregate(q, (c, p) => c.Include(p)).ToListAsync();
-
         }
 
         public async Task<List<T>> GetAll(Expression<Func<T, Object>>[] includes = null, Expression<Func<T, bool>> where = null, int limit = 0)

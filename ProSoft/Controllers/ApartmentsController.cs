@@ -22,27 +22,35 @@ namespace ProSoft.Controllers
             _data = data;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            List<Apartment> apartments = await _data.GetApartmentsAsync();
+            ViewData["SearchString"] = searchString;
 
-            var model = new ApartmentViewModel
+            List<DataAccess.Ef.Dto.Apartment> apartments = await _data.GetApartmentsAsync(searchString);
+
+            var model = new ApartmentsViewModel
             {
-                Appartments = apartments.Adapt<List<Appartment>>()
+                Apartments = apartments.Adapt<List<Models.ApartmentModel>>()
             };
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Index(ApartmentViewModel model)
+        public async Task<IActionResult> Index(ApartmentsViewModel model, string searchString)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                //return View(model);
+                if (model.Apartments.Any())
+                {
+                    ApartmentModel apartment = model.Apartments[0];
+
+                    if (apartment.LastIndicationId != null && apartment.LastIndicationValue != null)
+                        await _data.SetIndicationAsync((int)apartment.LastIndicationId, (int)apartment.LastIndicationValue);
+                }
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { searchString = searchString});
         }
     }
 }
