@@ -10,5 +10,7 @@ namespace Services
     {
         Task<List<Apartment>> GetApartmentsAsync(string searchString);
         Task SetIndicationAsync(int id, int value);
+        Task<List<Address>> GetAddresses();
+        Task<List<Apartment>> GetUnverifiedMetersByAddress(string address);
     }
 }

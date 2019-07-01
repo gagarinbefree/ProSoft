@@ -17,6 +17,7 @@ namespace DataAccess.Ef
         public virtual DbSet<Apartment> Apartment { get; set; }
         public virtual DbSet<Indication> Indication { get; set; }
         public virtual DbSet<Meter> Meter { get; set; }
+        public virtual DbSet<Address> Address { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -63,10 +64,6 @@ namespace DataAccess.Ef
                 entity.Property(e => e.Meterid).HasColumnName("meterid");
 
                 entity.Property(e => e.Value).HasColumnName("value");
-
-                //entity.HasOne(d => d.Meter)
-                //    .WithMany(p => p.Indication)
-                //    .HasForeignKey(d => d.Meterid);
             });
 
             modelBuilder.Entity<Meter>(entity =>
@@ -87,6 +84,21 @@ namespace DataAccess.Ef
                     .IsRequired()
                     .HasColumnName("number")
                     .HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<Address>(entity =>
+            {
+                entity.ToTable("address");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Street)
+                    .HasColumnName("street")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Building)
+                    .HasColumnName("building")
+                    .HasMaxLength(100);
             });
         }
     }

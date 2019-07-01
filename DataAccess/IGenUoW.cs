@@ -12,5 +12,6 @@ namespace DataAccess
         IGenRepository<Meter> RepMeter { get; }
         IGenRepository<Indication> RepIndication { get; }
         IGenRepository<Apartment> RepApartment { get; }
+        IGenRepository<Address> RepAddress { get; }
     }
 }

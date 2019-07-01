@@ -1,0 +1,58 @@
+﻿@model ProSoft.Models.MetersViewModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <h1>Счетчики</h1>
+</div>
+
+<div class="row mt-3">
+    <form asp-action="Index" method="get">
+        <select asp-for="Address" asp-items="@(new SelectList(Model.Addresses,"Address","Address"))">
+            <option>Выберете дом</option>
+        </select>
+        <button type="submit" class="btn btn-primary btn-sm mb-1">
+            Применить
+        </button>
+    </form>
+</div>
+
+<div class="row mt-2">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Default.ApartmentName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Default.MeterNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Default.NextVerificationDate)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Meters)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ApartmentName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MeterNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NextVerificationDate)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

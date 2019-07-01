@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using DataAccess;
 using DataAccess.Ef.Dto;
+using System.Linq;
 
 namespace Services
 {
@@ -18,19 +19,26 @@ namespace Services
             _unit = unit;
         }
 
+        public async Task<List<Address>> GetAddresses()
+        {
+            return await _unit.RepAddress.GetAllAsync();
+        }
+
         public async Task<List<Apartment>> GetApartmentsAsync(string searchString)
         {
-            List<Apartment> apartments = new List<Apartment>();
-          
+            var apartments = new List<Apartment>();
+
             if (!string.IsNullOrWhiteSpace(searchString))
             {
-                Regex rgx = new Regex("[^a-zA-Z0-9]");
-                string alphaNumericOnly = rgx.Replace(searchString, "");
+                string cleanSearchString = searchString.Replace('/', ' ');
 
-                apartments = await _unit
-                    .RepApartment
-                    .GetAllAsync(f => f.Name.IndexOf(alphaNumericOnly, StringComparison.OrdinalIgnoreCase) != -1,
-                        f => f.Meter);
+                if (!string.IsNullOrWhiteSpace(cleanSearchString))
+                {
+                    apartments = await _unit
+                        .RepApartment
+                        .GetAllAsync(f => f.Name.IndexOf(cleanSearchString, StringComparison.OrdinalIgnoreCase) != -1,
+                            f => f.Meter);
+                }
             }
             else
             {
@@ -46,6 +54,22 @@ namespace Services
                     SortOrder.Descending);
 
                 apartment.Meter.Indication.Add(indication);
+            }
+
+            return apartments;
+        }
+
+        public async Task<List<Apartment>> GetUnverifiedMetersByAddress(string address)
+        {
+            var apartments = new List<Apartment>();
+
+            if (!string.IsNullOrWhiteSpace(address))
+            {
+                string searchString = address.Replace(",", "/");
+
+                apartments = await _unit.RepApartment.GetAllAsync(f => f.Name.IndexOf(searchString, StringComparison.OrdinalIgnoreCase) != -1 
+                    && f.Meter.Nextverification <= DateTime.Now,
+                   f => f.Meter);
             }
 
             return apartments;

@@ -41,17 +41,27 @@ namespace ProSoft
             services.AddScoped<IGenUoW, EfUnit>();
             services.AddScoped<IDataProvider, DataProvider>();
 
-            TypeAdapterConfig<Apartment, ApartmentModel>
+            TypeAdapterConfig<Apartment, ApartmentViewModel>
                 .NewConfig()
                 .Map(d => d.ApartmentId, s => s.Id)
                 .Map(d => d.ApartmentName, s => s.Name.Replace('/', ','))
                 .Map(d => d.MeterId, s => s.Meterid)
+                .Map(d => d.MeterNumber, s => s.Meter.Number)
                 .Map(d => d.LastIndicationDateValue, s => s.Meter.Indication.Any() ? s.Meter.Indication.First().Datevalue.ToString("dd.MM.yyyy") : "")
                 .Map(d => d.LastIndicationValue, s => s.Meter.Indication.Any() ? (int?)s.Meter.Indication.First().Value : null)
                 .Map(d => d.LastVerificationDate, s => s.Meter.Lastverification.ToString("dd.MM.yyyy"))
                 .Map(d => d.NextVerificationDate, s => s.Meter.Nextverification.ToString("dd.MM.yyyy"))
                 .Map(d => d.LastIndicationId, s => s.Meter.Indication.Any() ? (int?)s.Meter.Indication.First().Id : null);
 
+            TypeAdapterConfig<Address, AddressViewModel>
+                .NewConfig()
+                .Map(d => d.Address, s => $"{s.Street},{s.Building}");
+
+            TypeAdapterConfig<Apartment, MeterViewModel>
+                .NewConfig()
+                .Map(d => d.ApartmentName, s => s.Name.Replace('/', ','))
+                .Map(d => d.MeterNumber, s => s.Meter.Number)
+                .Map(d => d.NextVerificationDate, s => s.Meter.Nextverification.ToString("dd.MM.yyyy"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

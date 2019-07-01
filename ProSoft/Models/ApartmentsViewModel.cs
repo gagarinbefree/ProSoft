@@ -8,7 +8,7 @@ namespace ProSoft.Models
     public class ApartmentsViewModel
     {
         public string SearchFilter { set; get; }
-        public List<ApartmentModel> Apartments { get; set; } = new List<ApartmentModel>();
-        public ApartmentModel Default { get => new ApartmentModel(); }
+        public List<ApartmentViewModel> Apartments { get; set; } = new List<ApartmentViewModel>();
+        public ApartmentViewModel Default { get => new ApartmentViewModel(); }
     }
 }

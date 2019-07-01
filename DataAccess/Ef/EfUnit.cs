@@ -33,7 +33,13 @@ namespace DataAccess.Ef
         {
             get { return _repMeter ?? (_repMeter = new Repository<Meter>(_db)); }
         }
-        
+
+        private IGenRepository<Address> _repAddress;
+        public IGenRepository<Address> RepAddress
+        {
+            get { return _repAddress ?? (_repAddress = new Repository<Address>(_db)); }
+        }
+
         public virtual void Dispose(bool disposing)
         {
             if (!_disposed)
@@ -50,6 +56,6 @@ namespace DataAccess.Ef
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }        
+        }
     }
 }

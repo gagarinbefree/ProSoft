@@ -30,7 +30,7 @@ namespace ProSoft.Controllers
 
             var model = new ApartmentsViewModel
             {
-                Apartments = apartments.Adapt<List<Models.ApartmentModel>>()
+                Apartments = apartments.Adapt<List<Models.ApartmentViewModel>>()
             };
 
             return View(model);
@@ -43,7 +43,7 @@ namespace ProSoft.Controllers
             {
                 if (model.Apartments.Any())
                 {
-                    ApartmentModel apartment = model.Apartments[0];
+                    ApartmentViewModel apartment = model.Apartments[0];
 
                     if (apartment.LastIndicationId != null && apartment.LastIndicationValue != null)
                         await _data.SetIndicationAsync((int)apartment.LastIndicationId, (int)apartment.LastIndicationValue);

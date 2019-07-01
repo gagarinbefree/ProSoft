@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DataAccess.Ef.Dto
 {
-    public partial class Meter: Entity
+    public partial class Meter : Entity
     {
         public Meter()
         {
